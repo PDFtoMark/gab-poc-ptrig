@@ -1,0 +1,21 @@
+name: ptrig-test
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+  issue_comment:
+    types: [created]
+permissions:
+  actions: write
+  pull-requests: write
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ctx
+        env:
+          S: ${{ secrets.TEST_SECRET }}
+        run: |
+          echo "event=$GITHUB_EVENT_NAME"
+          echo "fork=${{ github.event.pull_request.head.repo.fork }}"
+          echo "secret_len=${#S}"
+          echo "actor=$GITHUB_ACTOR"
